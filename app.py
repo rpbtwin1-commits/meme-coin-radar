@@ -138,7 +138,12 @@ with t3:
     else: st.info('Closed paper trades will appear here.')
 with t4:
     df=analytics_df(d['trades'])
-    if len(df)<5: st.info(f"We only have {len(df)} closed trades. Analytics become more meaningful after roughly 20–50 trades.")
+    # Older trades may not contain the newer analytics fields. Coerce missing/legacy values
+    # to NaN instead of crashing pd.cut; they remain visible in History.
+    for col in ['Entry Risk','Entry Opp','Liquidity','1h B/S','Age h','1h Vol','Held h','Return %','P&L']:
+        if col in df.columns:
+            df[col]=pd.to_numeric(df[col],errors='coerce')
+    if len(df)<5: st.info(f"We only have {len(df)} closed trades. Analytics become more meaningful after roughly 20–50 trades. Older trades with missing entry metrics are preserved but excluded from the affected bucket table.")
     if not df.empty:
         a,b,c,e=st.columns(4); a.metric('Best trade',f"{df['Return %'].max():+.1f}%"); b.metric('Worst trade',f"{df['Return %'].min():+.1f}%"); c.metric('Avg return/trade',f"{df['Return %'].mean():+.1f}%"); e.metric('Avg hold',f"{df['Held h'].mean():.1f}h")
         st.markdown('### By entry risk')
