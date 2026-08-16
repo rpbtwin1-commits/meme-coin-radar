@@ -1,0 +1,1 @@
+V4 diversified paper trader: stocks/ETFs, established crypto, and a capped meme-coin bucket. No profit guarantee; no real-money trading.
