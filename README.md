@@ -1,21 +1,19 @@
-# Meme Coin Radar — Web / iPhone
+# Early Gems V6 — Always On
 
-Mobile-first Streamlit deployment of the Solana Meme Coin Radar.
+## Worker on Railway
+- Start command: `python worker_api.py`
+- Attach a Railway Volume at `/data`
+- Set `DB_PATH=/data/gems.db`
+- Optional: `BIRDEYE_API_KEY`
+- Optional: `API_TOKEN`
+- Optional: `SCAN_SECONDS=20`
+- Generate a public Railway domain.
 
-## Deploy on Streamlit Community Cloud
-- Push this folder to a GitHub repository.
-- In Streamlit Community Cloud, create an app from that repository.
-- Main file: `app.py`
-- The app works immediately without secrets.
-- Optional secrets:
-  - `BIRDEYE_API_KEY`
-  - `X_BEARER_TOKEN`
-  - `SOLANA_RPC_URL`
+## Streamlit dashboard
+Use `dashboard_app.py` as the Streamlit main file or merge it into the existing dashboard.
+Set:
+- `EARLY_GEMS_API_URL=https://YOUR-WORKER.up.railway.app`
+- `EARLY_GEMS_API_TOKEN=...` only if API_TOKEN is set.
 
-## iPhone
-After deployment, open the app URL in Safari and use Share → Add to Home Screen.
-
-## Data
-Zero-key mode uses DexScreener market/discovery data and public Solana RPC token-account concentration.
-Birdeye enables deeper fresh-listing/security/holder coverage.
-X enables social creator metrics.
+The worker scans continuously and stores score history in SQLite on the mounted Railway Volume.
+Public DEX Screener discovery does not see every newly created token; Birdeye improves launch coverage.
